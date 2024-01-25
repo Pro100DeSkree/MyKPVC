@@ -1,4 +1,4 @@
-package com.example.mykpvc
+package com.deskree.mykpvc
 
 import org.junit.Test
 

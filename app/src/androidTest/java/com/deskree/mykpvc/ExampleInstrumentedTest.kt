@@ -1,4 +1,4 @@
-package com.example.mykpvc
+package com.deskree.mykpvc
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

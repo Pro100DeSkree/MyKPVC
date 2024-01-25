@@ -1,12 +1,10 @@
-package com.deskree.mykpvc.dialogs
+package com.deskree.mykpvc.activities.main.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,13 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.deskree.mykpvc.ui.theme.MyKPVCTheme
 import com.deskree.mykpvc.ui.theme.dialogColor
 
 @Composable
-fun ServerIsNotAvailableDialog(
+fun StartDialogUI(
     openInfoDialog: MutableState<Boolean>,
     isNotShowMore: (Boolean) -> Unit
 ){
@@ -48,13 +44,6 @@ fun ServerIsNotAvailableDialog(
                 text="Увага",
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(Modifier.padding(top = 10.dp))
-            Text(
-                text="Так як це тестова версія застосунку, сервер може бути недоступний.",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(Modifier.padding(top = 10.dp))

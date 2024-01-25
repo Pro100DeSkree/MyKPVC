@@ -1,4 +1,4 @@
-package com.deskree.mykpvc.bottom_nav
+package com.deskree.mykpvc.activities.main.bottom_nav
 
 
 import androidx.compose.material3.Icon

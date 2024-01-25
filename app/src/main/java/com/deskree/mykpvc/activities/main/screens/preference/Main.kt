@@ -1,12 +1,10 @@
-package com.deskree.mykpvc.screens.preference
+package com.deskree.mykpvc.activities.main.screens.preference
 
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -18,15 +16,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,21 +30,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.deskree.mykpvc.ui.theme.Purple40
 
 val cardCornersRadius = 20.dp
-const val matrixUrl = "https://matrix.to/#/@deskree:matrix.org"
-const val instUrl = "https://www.instagram.com/deskree.23_12"
-const val tgUrl = "https://t.me/DeSkree"
-const val PREF_OLD_GROUP_NUM_KEY = "old_group_num_key"
-const val PREF_GROUP_NUM_KEY = "group_num_key"
-const val MAIN_PREFERENCE_KEY = "main_pref"
 
-// Ідеї для налаштувань
+// Ідеї для налаштувань:
 // Виділяти мою групу поміж інших в змінах
 
 @Composable
-fun PreferencesScreen() {
+fun PreferencesScreen(
+    logOutListener: Listener,
+) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -58,9 +49,6 @@ fun PreferencesScreen() {
             modifier = Modifier.fillMaxSize()
                 .padding(horizontal = 10.dp)
         ) {
-            items(1) {
-                ChangeGroup()
-            }
 //            items(1) {  //TODO: Закоментовані "налаштування" виклик
 //                PrefCardDef()
 //            }
@@ -68,65 +56,10 @@ fun PreferencesScreen() {
 //                PrefCardProjectSupport()
 //            }
             items(1) {
-                PrefCardFeedback()
+                LogOutOfAccount(logOutListener)
             }
-        }
-    }
-}
-
-@Composable
-fun ChangeGroup(){
-    val pref = LocalContext.current.getSharedPreferences(
-        MAIN_PREFERENCE_KEY,
-        ComponentActivity.MODE_PRIVATE
-    )
-    val groupNum = pref.getString(PREF_GROUP_NUM_KEY, "-1")!!
-
-    val openChangeGroup = remember { mutableStateOf(false) }
-    if(openChangeGroup.value){
-        ChooseGroup(pref){
-            openChangeGroup.value = false
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp)
-    ) {
-        Text(
-            text = "Змінити групу",
-            style = MaterialTheme.typography.titleLarge
-        )
-        Spacer(Modifier.padding(top = 5.dp))
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(cardCornersRadius)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text="Бажаєте відслідковувати іншу групу?",
-                        modifier = Modifier.weight(1f)
-                    )
-                    Spacer(Modifier.padding(vertical = 2.dp))
-                    TextButton(
-                        onClick = {
-                            openChangeGroup.value = true
-                        },
-                        border = BorderStroke(3.dp, Purple40)
-                    ) {
-                        Text(text = groupNum)
-                    }
-                }
+            items(1) {
+                PrefCardFeedback()
             }
         }
     }
@@ -210,6 +143,50 @@ fun ChangeGroup(){
 //}
 
 @Composable
+fun LogOutOfAccount(
+    logOutListener: Listener,
+) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp)
+    ) {
+        Text(
+            text = "Вийти",
+            style = MaterialTheme.typography.titleLarge
+        )
+        Spacer(Modifier.padding(top = 5.dp))
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(cardCornersRadius)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp)
+            ) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Вийти з акаунту?")
+                    Spacer(Modifier.padding(end = 8.dp))
+                    Button(
+                        onClick = {
+                            logOutListener.logOut()
+                        }
+                    ) {
+                        Text("Log out")
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun PrefCardFeedback() {
 
     Column(
@@ -252,7 +229,7 @@ fun SupportText(
     title: String,
     body: String,
     url: String
-){
+) {
     val context = LocalContext.current
     Row {
         Text(
@@ -285,3 +262,6 @@ fun SupportText(
     }
 }
 
+interface Listener {
+    fun logOut()
+}

@@ -1,4 +1,4 @@
-package com.deskree.mykpvc.screens.callSchedule
+package com.deskree.mykpvc.activities.main.screens.callSchedule
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

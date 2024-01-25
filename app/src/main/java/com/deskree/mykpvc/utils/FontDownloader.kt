@@ -1,9 +1,7 @@
 package com.deskree.mykpvc.utils
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
