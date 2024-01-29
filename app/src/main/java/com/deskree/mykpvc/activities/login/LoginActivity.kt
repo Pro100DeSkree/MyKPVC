@@ -19,7 +19,6 @@ import com.deskree.mykpvc.activities.main.screens.preference.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.screens.preference.MAIN_PREFERENCE_KEY
 import com.deskree.mykpvc.requests.profile.login
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
-import com.deskree.mykpvc.utils.ApiClient
 
 class LoginActivity : ComponentActivity() {
     private var target: Int = 0
