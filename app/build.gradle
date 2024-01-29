@@ -75,6 +75,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:0.23.1"
     // Для завантаження шрифтів
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    // Парсинг json
+    implementation("com.google.code.gson:gson:2.8.9")
 
 
 

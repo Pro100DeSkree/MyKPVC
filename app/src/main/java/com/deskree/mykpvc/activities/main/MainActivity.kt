@@ -3,6 +3,7 @@ package com.deskree.mykpvc.activities.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
@@ -17,17 +18,18 @@ import com.deskree.mykpvc.activities.main.screens.MainScreen
 import com.deskree.mykpvc.activities.main.screens.preference.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.screens.preference.Listener
 import com.deskree.mykpvc.activities.main.screens.preference.MAIN_PREFERENCE_KEY
+import com.deskree.mykpvc.requests.profile.getCookie
+import com.deskree.mykpvc.requests.profile.myProfile
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
 import com.deskree.mykpvc.utils.ApiClient
 
 class MainActivity : ComponentActivity() {
     private var accountToken = ""
     private lateinit var launcher: ActivityResultLauncher<Intent>
-    private val apiClient = ApiClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+//
         // Отримання відповіді від activityLogin
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -43,25 +45,22 @@ class MainActivity : ComponentActivity() {
         val activeAccountLogin = pref.getString(LOGGED_IN_ACCOUNT, "").toString()
         accountToken = pref.getString(activeAccountLogin, "").toString()
 
+        // Перевірка токена
         if (accountToken.isEmpty()) {
             startActivityLogin(IS_LOGIN)
         } else {
-            apiClient.myProfile(accountToken,
-                { respCode ->
-                    if (respCode == 401) {
-                        startActivityLogin(IS_LEGACY_TOKEN)
-                    }
-                }, {}
-            )
+            myProfile(accountToken, {}) {
+                startActivityLogin(IS_LEGACY_TOKEN)
+            }
         }
+//
+//        // Запуск python
+//        if (!Python.isStarted()) {
+//            Python.start(AndroidPlatform(this))
+//        }
 
-        // Запуск python
-        if (!Python.isStarted()) {
-            Python.start(AndroidPlatform(this))
-        }
 
         setContent {
-//            val isNotShowMoreMSG = pref.getBoolean(PREF_IS_SHOW_MSG, true)
             val navController = rememberNavController()
             val logOutListener = object : Listener {
                 override fun logOut() {
@@ -72,12 +71,6 @@ class MainActivity : ComponentActivity() {
             }
 
             MyKPVCTheme(darkTheme = true) {
-
-//                val openInfoDialog = remember { mutableStateOf(isNotShowMoreMSG) }
-//                if(openInfoDialog.value) {
-//                    StartDialog(openInfoDialog, pref)
-//                }
-
                 MainScreen(logOutListener, navController)
             }
         }
