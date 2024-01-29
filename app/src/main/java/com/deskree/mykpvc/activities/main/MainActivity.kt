@@ -2,26 +2,20 @@ package com.deskree.mykpvc.activities.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.compose.rememberNavController
-import com.chaquo.python.Python
-import com.chaquo.python.android.AndroidPlatform
 import com.deskree.mykpvc.activities.login.LoginActivity
 import com.deskree.mykpvc.activities.main.bottom_nav.BottomItem
 import com.deskree.mykpvc.activities.main.screens.MainScreen
 import com.deskree.mykpvc.activities.main.screens.preference.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.screens.preference.Listener
 import com.deskree.mykpvc.activities.main.screens.preference.MAIN_PREFERENCE_KEY
-import com.deskree.mykpvc.requests.profile.getCookie
 import com.deskree.mykpvc.requests.profile.myProfile
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
-import com.deskree.mykpvc.utils.ApiClient
 
 class MainActivity : ComponentActivity() {
     private var accountToken = ""
@@ -53,6 +47,8 @@ class MainActivity : ComponentActivity() {
                 startActivityLogin(IS_LEGACY_TOKEN)
             }
         }
+
+
 //
 //        // Запуск python
 //        if (!Python.isStarted()) {
