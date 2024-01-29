@@ -17,6 +17,7 @@ import com.deskree.mykpvc.activities.main.MainActivity.Companion.IS_LEGACY_TOKEN
 import com.deskree.mykpvc.activities.main.MainActivity.Companion.IS_LOGIN
 import com.deskree.mykpvc.activities.main.screens.preference.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.screens.preference.MAIN_PREFERENCE_KEY
+import com.deskree.mykpvc.requests.profile.login
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
 import com.deskree.mykpvc.utils.ApiClient
 
@@ -38,7 +39,6 @@ class LoginActivity : ComponentActivity() {
                 val password = remember { mutableStateOf("") }
                 val cookieErrorMsg = remember { mutableStateOf("") }
                 val loginErrorMsg = remember { mutableStateOf("") }
-                val apiClient = ApiClient()
 
                 if (target == IS_LEGACY_TOKEN) {
                     Toast.makeText(this, "Пройдіть повторну авторизацію", Toast.LENGTH_LONG).show()
@@ -66,7 +66,6 @@ class LoginActivity : ComponentActivity() {
                                 finish()
                             } else {
                                 loginProcess(
-                                    apiClient,
                                     login,
                                     password,
                                     errorHint,
@@ -79,7 +78,6 @@ class LoginActivity : ComponentActivity() {
                         } else if (target == IS_LEGACY_TOKEN) {
                             Toast.makeText(this, "Токен застарів", Toast.LENGTH_LONG).show()
                             loginProcess(
-                                apiClient,
                                 login,
                                 password,
                                 errorHint,
@@ -104,7 +102,6 @@ class LoginActivity : ComponentActivity() {
     }
 
     private fun loginProcess(
-        apiClient: ApiClient,
         login: MutableState<String>,
         password: MutableState<String>,
         errorHint: MutableState<Boolean>,
@@ -114,7 +111,7 @@ class LoginActivity : ComponentActivity() {
         editor: SharedPreferences.Editor,
 
         ) {
-        apiClient.loginProcess(login.value,
+        login(login.value,
             password.value,
             errorHint,
             { token ->
@@ -141,25 +138,14 @@ class LoginActivity : ComponentActivity() {
         cookieErrorMsg: MutableState<String>,
         loginErrorMsg: MutableState<String>,
     ) {
-        if (cookieErrorMsg.value.isNotEmpty()) {
-
-            Toast.makeText(
-                this,
-                "Не вдалось отримати cookies. Перевірте підключення до інтернету.",
-                Toast.LENGTH_SHORT
-            )
-                .show()
-            Toast.makeText(this, cookieErrorMsg.value, Toast.LENGTH_LONG).show()
-        }
-
-        if (loginErrorMsg.value.isNotEmpty()) {
+        if (cookieErrorMsg.value.isNotEmpty() or loginErrorMsg.value.isNotEmpty()) {
 
             Toast.makeText(
                 this,
                 "Не вдалось встановити зєднання. Перевірте підключення до інтернету.",
                 Toast.LENGTH_SHORT
-            )
-                .show()
+            ).show()
+
             Toast.makeText(this, loginErrorMsg.value, Toast.LENGTH_LONG).show()
         }
     }
