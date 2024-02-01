@@ -22,26 +22,28 @@ fun getChanges(
         val changesList: MutableList<TableChanges> = mutableListOf()
         val request = getRequest("$URL_SCHE_CHANGES$countChanges", token)
 
-        val response = client.newCall(request).execute()
-        val responseBody = response.body?.string().toString()
-        response.close()
+        try {
+            val response = client.newCall(request).execute()
+            val responseBody = response.body?.string().toString()
+            response.close()
 
-        val items = Gson().fromJson(responseBody, Array<JsonChangesItem>::class.java)
+            val items = Gson().fromJson(responseBody, Array<JsonChangesItem>::class.java)
 
-        items.forEach {
-            val oneRowChanges = mutableListOf<String>()
-            val changes = parseHtml(it.previewText){ row ->
-                oneRowChanges.add(row)
-            }
+            items.forEach {
+                val oneRowChanges = mutableListOf<String>()
+                val changes = parseHtml(it.previewText) { row ->
+                    oneRowChanges.add(row)
+                }
 
-            changesList.add(
-                TableChanges(
-                    onDay = it.name,
-                    oneRowChanges = oneRowChanges,
-                    changes = changes
+                changesList.add(
+                    TableChanges(
+                        onDay = it.name,
+                        oneRowChanges = oneRowChanges,
+                        changes = changes
+                    )
                 )
-            )
-        }
-        returnChanges.invoke(changesList)
+            }
+            returnChanges.invoke(changesList)
+        } catch (_: Exception){ }
     }
 }
