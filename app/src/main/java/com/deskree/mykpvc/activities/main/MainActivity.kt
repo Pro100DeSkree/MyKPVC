@@ -2,11 +2,13 @@ package com.deskree.mykpvc.activities.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.Text
 import androidx.navigation.compose.rememberNavController
 import com.deskree.mykpvc.activities.login.LoginActivity
 import com.deskree.mykpvc.activities.main.bottom_nav.BottomItem
@@ -14,6 +16,7 @@ import com.deskree.mykpvc.activities.main.screens.MainScreen
 import com.deskree.mykpvc.activities.main.screens.preference.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.screens.preference.Listener
 import com.deskree.mykpvc.activities.main.screens.preference.MAIN_PREFERENCE_KEY
+import com.deskree.mykpvc.requests.getChanges
 import com.deskree.mykpvc.requests.profile.myProfile
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
 
@@ -48,7 +51,18 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
+        getChanges(accountToken, 5){ changesList ->
+            changesList.forEach { oneDayListChanges ->
+                Log.d("MyLog", oneDayListChanges.header.toString())
+                Log.d("MyLog", oneDayListChanges.onDay)
+                Log.d("MyLog", oneDayListChanges.oneRowChanges.toString())
+                oneDayListChanges.changes.forEach { rowChanges ->
+                    Log.d("MyLog", rowChanges.toString())
+                }
+                Log.d("MyLog", "_______________________________________________________")
+                Log.d("MyLog", "")
+            }
+        }
 //
 //        // Запуск python
 //        if (!Python.isStarted()) {

@@ -73,10 +73,12 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     // Для "жорсткого" скрола елементів
     implementation "com.google.accompanist:accompanist-pager:0.23.1"
-    // Для завантаження шрифтів
+    // Requests
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     // Парсинг json
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.1")
+    // Парсер HTML коду
+    implementation("org.jsoup:jsoup:1.14.3")
 
 
 

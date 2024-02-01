@@ -29,17 +29,16 @@ fun myProfile(
             val responseBody = response.body?.string().toString()
             response.close()
 
-            Log.d("MyLog", "$responseCode")
-            Log.d("MyLog", responseBody)
+//            Log.d("MyLog", "$responseCode")   // TODO: myProfileLog
+//            Log.d("MyLog", responseBody)      // TODO: myProfileLog
 
             if (responseCode == 200) {
-                println("MyProfile: $responseBody")
                 myProfile.invoke(responseBody)
             } else if (responseCode == 401) {
                 legacyToken.invoke()
             }
         } catch (e: Exception) {
-            Log.d("MyLog", "myProfile: $e")
+            Log.d("MyLog", "myProfile: $e") // TODO: myProfileErrorLog
         }
     }
 }
