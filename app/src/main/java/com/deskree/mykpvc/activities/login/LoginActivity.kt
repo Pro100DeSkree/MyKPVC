@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,10 +14,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.deskree.mykpvc.activities.main.MainActivity.Companion.IS_LEGACY_TOKEN
-import com.deskree.mykpvc.activities.main.MainActivity.Companion.IS_LOGIN
-import com.deskree.mykpvc.activities.main.screens.preference.LOGGED_IN_ACCOUNT
-import com.deskree.mykpvc.activities.main.screens.preference.MAIN_PREFERENCE_KEY
+import com.deskree.mykpvc.activities.main.routes.settings.IS_DARK_THEME
+import com.deskree.mykpvc.activities.main.routes.settings.IS_DYNAMIC_COLORS
+import com.deskree.mykpvc.activities.main.routes.settings.LOGGED_IN_ACCOUNT
+import com.deskree.mykpvc.activities.main.routes.settings.MAIN_PREFERENCE_KEY
 import com.deskree.mykpvc.requests.profile.login
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
 
@@ -29,8 +30,13 @@ class LoginActivity : ComponentActivity() {
         val pref = getSharedPreferences(MAIN_PREFERENCE_KEY, MODE_PRIVATE)
 
         setContent {
+            val isSystemDarkTheme = isSystemInDarkTheme()
+            val darkTheme =
+                remember { mutableStateOf(pref.getBoolean(IS_DARK_THEME, isSystemDarkTheme)) }
+            val dynamicColors =
+                remember { mutableStateOf(pref.getBoolean(IS_DYNAMIC_COLORS, true)) }
 
-            MyKPVCTheme(darkTheme = true) {
+            MyKPVCTheme(darkTheme = darkTheme.value, dynamicColor = dynamicColors.value) {
 
                 val isLoading = remember { mutableStateOf(false) }
                 val errorHint = remember { mutableStateOf(false) }
@@ -147,5 +153,10 @@ class LoginActivity : ComponentActivity() {
 
             Toast.makeText(this, loginErrorMsg.value, Toast.LENGTH_LONG).show()
         }
+    }
+
+    companion object {
+        const val IS_LOGIN = 100
+        const val IS_LEGACY_TOKEN = 101
     }
 }

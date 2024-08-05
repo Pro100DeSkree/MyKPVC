@@ -85,10 +85,6 @@ fun getCookie(
             val cookies = response.headers("Set-Cookie")
             response.close()
 
-            // Виведення куків
-            println("Куки: $cookies")
-
-            // Закриття ресурсів
             return cookies
         } else {
             error("Не вдалось отримати cookie. ResCode: $responseCode")

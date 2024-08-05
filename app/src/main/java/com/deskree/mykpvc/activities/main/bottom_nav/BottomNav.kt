@@ -20,8 +20,6 @@ fun BottomNav(
 ) {
     val listItems = listOf(
         BottomItem.Home,
-//        BottomItem.Schedule,
-        BottomItem.CallSchedule,
         BottomItem.Settings
     )
     NavigationBar(

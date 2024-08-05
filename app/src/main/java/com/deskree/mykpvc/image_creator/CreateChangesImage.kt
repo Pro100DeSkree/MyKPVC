@@ -5,15 +5,16 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.deskree.mykpvc.data.changes.ScheChanges
 import com.deskree.mykpvc.data.changes.TableChanges
-import com.deskree.mykpvc.ui.theme.imgBackground
-import com.deskree.mykpvc.ui.theme.imgStroke
-import com.deskree.mykpvc.ui.theme.imgText
 
 
-class CreateChangesImage {
+class CreateChangesImage(
+    private val background: Color,
+    private val onSurface: Color
+) {
     private lateinit var canvas: Canvas
     private lateinit var bitmap: Bitmap
 
@@ -21,7 +22,7 @@ class CreateChangesImage {
     private val fontNormal = Typeface.create("Roboto", Typeface.NORMAL)
     private val fontBold = Typeface.create("Roboto", Typeface.BOLD)
     private val textSizePx = 30f
-    private val textColor = imgText.toArgb()
+    private val textColor = onSurface.toArgb()
 
     // Ширина лінії таблиці
     private val lineThicknessTable = 2
@@ -40,7 +41,7 @@ class CreateChangesImage {
     private lateinit var tableList: List<ScheChanges>
 
     init {
-        Log.d("Mylog", "INIT Exec")
+        Log.d("ML", "INIT Exec")
     }
 
 
@@ -85,7 +86,10 @@ class CreateChangesImage {
         cellHeight = textHeight + 10
 
         // Визначення кількості рядків
-        rowCount = table.changes.size + table.oneRowChanges.size + 1
+        if (table.changes.size < 4)
+            rowCount = table.changes.size + table.oneRowChanges.size + (6 - table.changes.size)
+        else
+            rowCount = table.changes.size + table.oneRowChanges.size + 1
         oneRowCount = table.oneRowChanges.size + 1
 
         // Визначення ширини та висоти таблиці
@@ -136,15 +140,15 @@ class CreateChangesImage {
     private fun createImage(width: Int, height: Int) {
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
         canvas = Canvas(bitmap)
-        canvas.drawColor(imgBackground.toArgb())
+        canvas.drawColor(background.toArgb())
 
-        Log.d("MyLog", "Image Created: W:$width; H:$height")
-        Log.d("MyLog", "Drawing...")
+        Log.d("ML", "Image Created: W:$width; H:$height")
+        Log.d("ML", "Drawing...")
     }
 
     private fun drawTable() {
         val tableStyle = Paint().apply {
-            color = imgStroke.toArgb()
+            color = onSurface.copy(alpha = 0.5f).toArgb()
             style = Paint.Style.STROKE
             strokeWidth = lineThicknessTable.toFloat()
             isAntiAlias = false
@@ -278,7 +282,7 @@ class CreateChangesImage {
     }
 
     fun getBitmap(table: TableChanges): Bitmap {
-        // TODO: Обнулення змінних для коректної відмальовки таблиці.
+        // Обнулення змінних для коректної відмальовки таблиці.
         tableWidth = 0
         tableHeight = 0
         rowCount = 0

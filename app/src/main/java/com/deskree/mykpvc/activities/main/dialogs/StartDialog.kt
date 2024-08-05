@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.Dialog
-import com.deskree.mykpvc.activities.main.screens.preference.PREF_IS_SHOW_MSG
+import com.deskree.mykpvc.activities.main.routes.settings.PREF_IS_SHOW_MSG
 
 @Composable
 fun StartDialog(

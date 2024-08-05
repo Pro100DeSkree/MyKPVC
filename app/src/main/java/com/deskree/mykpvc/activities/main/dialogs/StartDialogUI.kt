@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.deskree.mykpvc.ui.theme.dialogColor
 
 @Composable
 fun StartDialogUI(
@@ -32,7 +31,7 @@ fun StartDialogUI(
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = dialogColor
+            containerColor = MaterialTheme.colorScheme.surface
         ),
     ) {
         Column(

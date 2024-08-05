@@ -1,4 +1,4 @@
-package com.deskree.mykpvc.parser
+package com.deskree.mykpvc.requests.changes
 
 import com.deskree.mykpvc.data.changes.ScheChanges
 import org.jsoup.Jsoup
@@ -7,7 +7,7 @@ val wordsToCheck =
     listOf("гр. ", "пара", "заняття", "розкладом", "заміною", "ауд", "П.І.Б. викладача")
 
 
-fun parseHtml(
+fun parseHtmlTabel(
     html: String,
     addOneRowChanges: (String) -> Unit
 ): MutableList<ScheChanges> {
