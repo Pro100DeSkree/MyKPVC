@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.deskree.mykpvc.activities.main.routes.home.HomeScreen
+import com.deskree.mykpvc.activities.main.routes.journal.JournalMain
 import com.deskree.mykpvc.activities.main.routes.settings.Settings
 import com.deskree.mykpvc.activities.main.routes.settings.SettingsScreen
 
@@ -17,6 +18,9 @@ fun NavGraph(
     NavHost(navController = navHostController, startDestination = defaultScreen) {
         composable(BottomItem.Home.route){
             HomeScreen()
+        }
+        composable(BottomItem.Journal.route){
+            JournalMain()
         }
         composable(BottomItem.Settings.route){
             SettingsScreen(settings)
