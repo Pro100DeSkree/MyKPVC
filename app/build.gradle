@@ -1,19 +1,18 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.chaquo.python'
 }
 
 android {
     namespace 'com.deskree.mykpvc'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.deskree.mykpvc"
-        minSdk 24
-        targetSdk 33
-        versionCode 8
-        versionName "0.4"
+        minSdk 26
+        targetSdk 34
+        versionCode 9
+        versionName "0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -22,11 +21,6 @@ android {
 
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
-        python {
-            pip {
-                install "Pillow"
-            }
         }
         signingConfig signingConfigs.debug
         proguardFiles
@@ -65,18 +59,16 @@ android {
 }
 
 dependencies {
-    //Для налаштувань
-    implementation 'androidx.preference:preference-ktx:1.2.0'
     // Для NavBar-a
     implementation 'androidx.navigation:navigation-compose:2.6.0-alpha04'
-    // Для запитів до серверу
-    implementation("com.android.volley:volley:1.2.1")
     // Для "жорсткого" скрола елементів
     implementation "com.google.accompanist:accompanist-pager:0.23.1"
-    // Для завантаження шрифтів
+    // Requests
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     // Парсинг json
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.1")
+    // Парсер HTML коду
+    implementation("org.jsoup:jsoup:1.14.3")
 
 
 
