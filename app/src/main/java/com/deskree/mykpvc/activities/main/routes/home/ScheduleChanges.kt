@@ -1,7 +1,8 @@
 package com.deskree.mykpvc.activities.main.routes.home
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -48,7 +49,7 @@ fun ScheduleChanges() {
 
     val images = remember { mutableStateListOf<Bitmap>() }
 
-    val pref = context.getSharedPreferences(MAIN_PREFERENCE_KEY, ComponentActivity.MODE_PRIVATE)
+    val pref = context.getSharedPreferences(MAIN_PREFERENCE_KEY, Context.MODE_PRIVATE)
     val activeAccountLogin = pref.getString(LOGGED_IN_ACCOUNT, "").toString()
     val accountToken = pref.getString(activeAccountLogin, "").toString()
     val isDarkTheme = pref.getBoolean(IS_DARK_THEME, isSystemInDarkTheme())
