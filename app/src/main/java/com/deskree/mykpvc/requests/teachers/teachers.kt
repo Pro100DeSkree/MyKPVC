@@ -1,8 +1,11 @@
 package com.deskree.mykpvc.requests.teachers
 
 import android.util.Log
+import com.deskree.mykpvc.activities.main.ML
+import com.deskree.mykpvc.data.TeacherItem
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
+import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,6 +51,30 @@ fun getMyTeachers(
 
             val myTeachers = parseTeachers(responseBody)
 
+        } catch (e: Exception) {
+            err(e.toString())
+        }
+    }
+}
+
+@OptIn(DelicateCoroutinesApi::class)
+fun getTeacherInfo(
+    accountToken: String,
+    teacherId: Int,
+    returnTeacherInfo: (TeacherItem) -> Unit,
+    err: (String) -> Unit
+) {
+    GlobalScope.launch {
+        val request = getRequest(TEACHER_INFO.format(teacherId), accountToken)
+
+        try {
+            val response = client.newCall(request).execute()
+            val responseBody = response.body?.string().toString()
+            response.close()
+
+            val teacherInfo = Gson().fromJson(responseBody, TeacherItem::class.java)
+
+            returnTeacherInfo.invoke(teacherInfo)
         } catch (e: Exception) {
             err(e.toString())
         }
