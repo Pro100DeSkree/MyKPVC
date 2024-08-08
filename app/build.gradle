@@ -65,6 +65,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:0.23.1"
     // Requests
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    // AsyncImage
+    implementation("io.coil-kt:coil-compose:2.0.0")
     // Парсинг json
     implementation("com.google.code.gson:gson:2.10.1")
     // Парсер HTML коду
