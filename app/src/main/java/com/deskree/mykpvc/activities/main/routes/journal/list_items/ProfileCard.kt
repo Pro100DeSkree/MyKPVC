@@ -25,8 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -115,8 +113,8 @@ fun ProfileCard(
                         .fillMaxWidth()
                         .height(2.dp)
                         .background(MaterialTheme.colorScheme.primary)
-                        .padding(bottom = 4.dp)
                     )
+                    Spacer(Modifier.padding(vertical = 8.dp))
                 } else {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
