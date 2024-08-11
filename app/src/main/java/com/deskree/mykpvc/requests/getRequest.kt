@@ -12,11 +12,11 @@ fun getRequest(url: String) : Request {
         .build()
 }
 
-fun getRequest(url: String, token: String) : Request {
+fun getRequest(url: String, accountToken: String) : Request {
     return Request.Builder()
         .url(url)
         .header("X-Requested-With", "XMLHttpRequest")
-        .header("Authorization", "Bearer $token")
+        .header("Authorization", "Bearer $accountToken")
         .build()
 }
 

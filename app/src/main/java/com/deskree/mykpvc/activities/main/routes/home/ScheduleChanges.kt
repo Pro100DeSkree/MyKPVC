@@ -1,6 +1,7 @@
 package com.deskree.mykpvc.activities.main.routes.home
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -26,14 +28,20 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.deskree.mykpvc.activities.main.ML
 import com.deskree.mykpvc.activities.main.routes.settings.IS_DARK_THEME
 import com.deskree.mykpvc.activities.main.routes.settings.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.routes.settings.MAIN_PREFERENCE_KEY
 import com.deskree.mykpvc.image_creator.CreateChangesImage
+import com.deskree.mykpvc.requests.changes.checkRep
 import com.deskree.mykpvc.requests.changes.getChanges
+import com.deskree.mykpvc.utils.SCHE_CHANGES_DIR_NAME
+import com.deskree.mykpvc.utils.isNoImage
+import com.deskree.mykpvc.utils.readAllImgs
 import com.deskree.mykpvc.utils.writeImg
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 
 
@@ -41,7 +49,6 @@ import com.google.accompanist.pager.rememberPagerState
 @Composable
 fun ScheduleChanges() {
     val context = LocalContext.current
-    val countScheduleChanges = 5
     val scheduleChangesPagerState = rememberPagerState()
     val materialColor = MaterialTheme.colorScheme
     val createChangesImage = CreateChangesImage(materialColor.background, materialColor.onSurface)
@@ -54,21 +61,92 @@ fun ScheduleChanges() {
     val isDarkTheme = pref.getBoolean(IS_DARK_THEME, isSystemInDarkTheme())
 
     LaunchedEffect(Unit) {
-        val endingName = if (isDarkTheme) "night" else "light"
-        getChanges(
+        val theme = if (isDarkTheme) "night" else "light"
+
+        checkRep(
             accountToken,
-            countScheduleChanges,
-            returnChanges = { changesList ->
-                changesList.forEachIndexed() { index, oneDayListChanges ->
-                    val bitmap = createChangesImage.getBitmap(oneDayListChanges)
-                    writeImg(context, bitmap, "$index-$endingName", "sche_changes")
-                    images.add(bitmap)
+            returnChangesRep = { checkRep ->
+                val newTimeStamp = "${checkRep.timeStamp
+                    .replace(" ", "_")
+                    .replace(":", "-")}-$theme"
+
+                if (isNoImage(context, null, SCHE_CHANGES_DIR_NAME, theme)) {
+                    getChanges(
+                        accountToken = accountToken,
+                        countChangesC = 5,
+                        returnChanges = { timeStamp, tableChanges ->
+                            var editedTimeStamp = timeStamp
+                                .replace(" ", "_")
+                                .replace(":", "-")
+                            val bitmap = createChangesImage.getBitmap(tableChanges)
+
+                            writeImg(
+                                context,
+                                bitmap,
+                                "$editedTimeStamp-$theme",
+                                SCHE_CHANGES_DIR_NAME
+                            )
+                            images.add(bitmap)
+                        },
+                        err = {
+                            Log.d(ML, "Error getChanges: $it")
+                        }
+                    )
+                } else if (isNoImage(context, newTimeStamp, SCHE_CHANGES_DIR_NAME, theme)) {
+                    getChanges(
+                        accountToken = accountToken,
+                        returnChanges = { timeStamp, tableChanges ->
+                            var editedTimeStamp = timeStamp
+                                .replace(" ", "_")
+                                .replace(":", "-")
+                            val newBitmap = createChangesImage.getBitmap(tableChanges)
+
+                            writeImg(
+                                context,
+                                newBitmap,
+                                "$editedTimeStamp-$theme",
+                                SCHE_CHANGES_DIR_NAME
+                            )
+
+                            readAllImgs(
+                                context = context,
+                                child = SCHE_CHANGES_DIR_NAME,
+                                theme = theme,
+                                returnBitmap = { bitmap ->
+                                    images.add(bitmap)
+                                }
+                            )
+                        },
+                        err = {
+                            Log.d(ML, "Error getChanges: $it")
+                        }
+                    )
+                } else {
+                    readAllImgs(
+                        context = context,
+                        child = SCHE_CHANGES_DIR_NAME,
+                        theme = theme,
+                        returnBitmap = { bitmap ->
+                            images.add(bitmap)
+                        }
+                    )
                 }
             },
-            err = {}
+            err = {
+                Log.d(ML, "Error checkRep: $it")
+            }
         )
     }
 
+    ScheduleChangesCard(images, scheduleChangesPagerState)
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun ScheduleChangesCard(
+    images: SnapshotStateList<Bitmap>,
+    scheduleChangesPagerState: PagerState
+) {
     Spacer(Modifier.padding(top = 5.dp))
     Card(
         modifier = Modifier
