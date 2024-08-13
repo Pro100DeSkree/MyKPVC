@@ -1,13 +1,11 @@
 package com.deskree.mykpvc.requests.journal
 
-import android.util.Log
-import com.deskree.mykpvc.activities.main.ML
+import com.deskree.mykpvc.data.journal.all_journals.Journals
 import com.deskree.mykpvc.data.journal.grades.DisciplineGrades
 import com.deskree.mykpvc.data.journal.journal.Journal
-import com.deskree.mykpvc.data.journal.all_journals.Journals
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
-import com.deskree.mykpvc.requests.urls
+import com.deskree.mykpvc.requests.urls.getUrl
 import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -22,7 +20,7 @@ fun getAllJournals(
 ) {
 
     GlobalScope.launch {
-        val request = getRequest(urls.JOURNALS, accountToken)
+        val request = getRequest(getUrl().JOURNALS, accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -46,7 +44,7 @@ fun getJournal(
     err: (String) -> Unit,
 ) {
     GlobalScope.launch {
-        val request = getRequest(urls.CONDUCTED_DISCIPLINE_CLASSES.format(journalId), accountToken)
+        val request = getRequest(getUrl().CONDUCTED_DISCIPLINE_CLASSES.format(journalId), accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -70,7 +68,7 @@ fun getJournalMarks(
     err: (String) -> Unit,
 ) {
     GlobalScope.launch {
-        val request = getRequest(urls.GRADES_DISCIPLINE.format(journalId), accountToken)
+        val request = getRequest(getUrl().GRADES_DISCIPLINE.format(journalId), accountToken)
 
         try {
             val response = client.newCall(request).execute()

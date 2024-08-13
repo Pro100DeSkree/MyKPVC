@@ -1,15 +1,12 @@
 package com.deskree.mykpvc.requests.profile
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
-import com.deskree.mykpvc.requests.urls
+import com.deskree.mykpvc.requests.urls.getUrl
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -21,7 +18,7 @@ fun myProfile(
 
     GlobalScope.launch {
         // Створення запиту
-        val request = getRequest(urls.URL_PROFILE, token)
+        val request = getRequest(getUrl().URL_PROFILE, token)
         try {
             // Виконання запиту та отримання відповіді
             val response = client.newCall(request).execute()

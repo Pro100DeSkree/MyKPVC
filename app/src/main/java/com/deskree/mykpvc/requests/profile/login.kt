@@ -4,12 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
-import com.deskree.mykpvc.requests.urls
+import com.deskree.mykpvc.requests.urls.getUrl
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.FormBody
-import okhttp3.Request
 import org.json.JSONObject
 
 
@@ -34,7 +33,7 @@ fun login(
         }
 
         // Створення запиту з використанням куків та тіла форми
-        val request = getRequest(urls.URL_LOGIN, formBody, cookies.toString())
+        val request = getRequest(getUrl().URL_LOGIN, formBody, cookies.toString())
         try {
             // Виконання запиту та отримання відповіді
             val response = client.newCall(request).execute()
@@ -71,7 +70,7 @@ fun getCookie(
     error: (String) -> Unit
 ): List<String>? {
     // Створення запиту
-    val request = getRequest(urls.URL_COOKIE)
+    val request = getRequest(getUrl().URL_COOKIE)
 
     try {
         // Виконання запиту та отримання відповіді

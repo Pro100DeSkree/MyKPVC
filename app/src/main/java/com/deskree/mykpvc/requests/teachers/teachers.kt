@@ -1,11 +1,9 @@
 package com.deskree.mykpvc.requests.teachers
 
-import android.util.Log
-import com.deskree.mykpvc.activities.main.ML
 import com.deskree.mykpvc.data.TeacherItem
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
-import com.deskree.mykpvc.requests.urls
+import com.deskree.mykpvc.requests.urls.getUrl
 import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -17,7 +15,7 @@ fun getAllTeachers(
     err: (String) -> Unit
 ) {
     GlobalScope.launch {
-        val request = getRequest(urls.COLLEGE_TEACHERS, accountToken)
+        val request = getRequest(getUrl().COLLEGE_TEACHERS, accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -38,7 +36,7 @@ fun getMyTeachers(
     err: (String) -> Unit
 ) {
     GlobalScope.launch {
-        val request = getRequest(urls.MY_TEACHERS, accountToken)
+        val request = getRequest(getUrl().MY_TEACHERS, accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -61,7 +59,7 @@ fun getTeacherInfo(
     err: (String) -> Unit
 ) {
     GlobalScope.launch {
-        val request = getRequest(urls.TEACHER_INFO.format(teacherId), accountToken)
+        val request = getRequest(getUrl().TEACHER_INFO.format(teacherId), accountToken)
 
         try {
             val response = client.newCall(request).execute()

@@ -31,7 +31,7 @@ import coil.request.ImageRequest
 import com.deskree.mykpvc.R
 import com.deskree.mykpvc.data.TeacherItem
 import com.deskree.mykpvc.data.journal.all_journals.Journals
-import com.deskree.mykpvc.requests.teachers.TEACHER_AVATAR
+import com.deskree.mykpvc.requests.urls.getUrl
 
 
 @Composable
@@ -60,7 +60,7 @@ fun ProfileCard(
                 if (selectedJournal != null) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(TEACHER_AVATAR.format(selectedJournal.teacherId))
+                            .data(getUrl().TEACHER_AVATAR.format(selectedJournal.teacherId))
                             .crossfade(true)
                             .build(),
                         contentDescription = "Avatar",

@@ -2,10 +2,10 @@ package com.deskree.mykpvc.requests.changes
 
 import com.deskree.mykpvc.data.JsonChangesItem
 import com.deskree.mykpvc.data.changes.TableChanges
-import com.google.gson.Gson
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
-import com.deskree.mykpvc.requests.urls
+import com.deskree.mykpvc.requests.urls.getUrl
+import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ fun getChanges(
 
     GlobalScope.launch {
         val changesList: MutableList<TableChanges> = mutableListOf()
-        val request = getRequest(urls.URL_SCHE_CHANGES.format(countChanges), token)
+        val request = getRequest(getUrl().URL_SCHE_CHANGES.format(countChanges), token)
 
         try {
             val response = client.newCall(request).execute()
