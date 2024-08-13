@@ -20,7 +20,6 @@ import com.deskree.mykpvc.activities.main.routes.settings.LOGGED_IN_ACCOUNT
 import com.deskree.mykpvc.activities.main.routes.settings.Settings
 import com.deskree.mykpvc.activities.main.routes.settings.MAIN_PREFERENCE_KEY
 import com.deskree.mykpvc.requests.profile.myProfile
-import com.deskree.mykpvc.requests.teachers.testInvokeTeachers
 import com.deskree.mykpvc.ui.theme.MyKPVCTheme
 
 const val ML = "MyLog"
@@ -55,8 +54,6 @@ class MainActivity : ComponentActivity() {
                 startActivityLogin(IS_LEGACY_TOKEN)
             }
         }
-
-        testInvokeTeachers(accountToken)
 
         setContent {
             val isSystemDarkTheme = isSystemInDarkTheme()

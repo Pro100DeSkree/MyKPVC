@@ -80,12 +80,3 @@ fun getTeacherInfo(
         }
     }
 }
-
-fun getTeacherAvatar(teacherID: Int) {
-    Log.d("ML", TEACHER_AVATAR.format(123))
-}
-
-//TODO: testInvoke
-fun testInvokeTeachers(accountToken: String) {
-//    getMyTeachers(accountToken){}
-}
