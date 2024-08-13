@@ -5,15 +5,11 @@ import com.deskree.mykpvc.activities.main.ML
 import com.deskree.mykpvc.data.TeacherItem
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
+import com.deskree.mykpvc.requests.urls
 import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
-const val COLLEGE_TEACHERS = "https://api.college.ks.ua/api/teachers"
-const val MY_TEACHERS = "$COLLEGE_TEACHERS/my"
-const val TEACHER_INFO = "$COLLEGE_TEACHERS/%s"
-const val TEACHER_AVATAR = "$COLLEGE_TEACHERS/%s/avatar"
 
 @OptIn(DelicateCoroutinesApi::class)
 fun getAllTeachers(
@@ -21,7 +17,7 @@ fun getAllTeachers(
     err: (String) -> Unit
 ) {
     GlobalScope.launch {
-        val request = getRequest(COLLEGE_TEACHERS, accountToken)
+        val request = getRequest(urls.COLLEGE_TEACHERS, accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -42,7 +38,7 @@ fun getMyTeachers(
     err: (String) -> Unit
 ) {
     GlobalScope.launch {
-        val request = getRequest(MY_TEACHERS, accountToken)
+        val request = getRequest(urls.MY_TEACHERS, accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -65,7 +61,7 @@ fun getTeacherInfo(
     err: (String) -> Unit
 ) {
     GlobalScope.launch {
-        val request = getRequest(TEACHER_INFO.format(teacherId), accountToken)
+        val request = getRequest(urls.TEACHER_INFO.format(teacherId), accountToken)
 
         try {
             val response = client.newCall(request).execute()

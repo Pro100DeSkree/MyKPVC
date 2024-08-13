@@ -5,12 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
+import com.deskree.mykpvc.requests.urls
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-const val URL_PROFILE = "http://api.college.ks.ua/api/users/profile/my"
 
 @OptIn(DelicateCoroutinesApi::class)
 fun myProfile(
@@ -21,7 +21,7 @@ fun myProfile(
 
     GlobalScope.launch {
         // Створення запиту
-        val request = getRequest(URL_PROFILE, token)
+        val request = getRequest(urls.URL_PROFILE, token)
         try {
             // Виконання запиту та отримання відповіді
             val response = client.newCall(request).execute()

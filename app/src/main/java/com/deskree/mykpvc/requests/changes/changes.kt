@@ -5,11 +5,11 @@ import com.deskree.mykpvc.data.changes.TableChanges
 import com.google.gson.Gson
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
+import com.deskree.mykpvc.requests.urls
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-const val URL_SCHE_CHANGES = "https://api.college.ks.ua/api/lessons/shedule/replacements:%s"
 
 @OptIn(DelicateCoroutinesApi::class)
 fun getChanges(
@@ -22,7 +22,7 @@ fun getChanges(
 
     GlobalScope.launch {
         val changesList: MutableList<TableChanges> = mutableListOf()
-        val request = getRequest(URL_SCHE_CHANGES.format(countChanges), token)
+        val request = getRequest(urls.URL_SCHE_CHANGES.format(countChanges), token)
 
         try {
             val response = client.newCall(request).execute()

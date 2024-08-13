@@ -4,15 +4,13 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
+import com.deskree.mykpvc.requests.urls
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.FormBody
 import okhttp3.Request
 import org.json.JSONObject
-
-const val URL_COOKIE = "https://api.college.ks.ua/sanctum/csrf-cookie"
-const val URL_LOGIN = "http://api.college.ks.ua/api/login"
 
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -36,7 +34,7 @@ fun login(
         }
 
         // Створення запиту з використанням куків та тіла форми
-        val request = getRequest(URL_LOGIN, formBody, cookies.toString())
+        val request = getRequest(urls.URL_LOGIN, formBody, cookies.toString())
         try {
             // Виконання запиту та отримання відповіді
             val response = client.newCall(request).execute()
@@ -73,7 +71,7 @@ fun getCookie(
     error: (String) -> Unit
 ): List<String>? {
     // Створення запиту
-    val request = getRequest(URL_COOKIE)
+    val request = getRequest(urls.URL_COOKIE)
 
     try {
         // Виконання запиту та отримання відповіді

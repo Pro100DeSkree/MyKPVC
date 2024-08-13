@@ -7,14 +7,11 @@ import com.deskree.mykpvc.data.journal.journal.Journal
 import com.deskree.mykpvc.data.journal.all_journals.Journals
 import com.deskree.mykpvc.requests.client
 import com.deskree.mykpvc.requests.getRequest
+import com.deskree.mykpvc.requests.urls
 import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
-const val JOURNALS = "https://api.college.ks.ua/api/journals"
-const val CONDUCTED_DISCIPLINE_CLASSES = "https://api.college.ks.ua/api/journals/%s"
-const val GRADES_DISCIPLINE = "https://api.college.ks.ua/api/journals/%s/marks"
 
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -25,7 +22,7 @@ fun getAllJournals(
 ) {
 
     GlobalScope.launch {
-        val request = getRequest(JOURNALS, accountToken)
+        val request = getRequest(urls.JOURNALS, accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -49,7 +46,7 @@ fun getJournal(
     err: (String) -> Unit,
 ) {
     GlobalScope.launch {
-        val request = getRequest(CONDUCTED_DISCIPLINE_CLASSES.format(journalId), accountToken)
+        val request = getRequest(urls.CONDUCTED_DISCIPLINE_CLASSES.format(journalId), accountToken)
 
         try {
             val response = client.newCall(request).execute()
@@ -73,7 +70,7 @@ fun getJournalMarks(
     err: (String) -> Unit,
 ) {
     GlobalScope.launch {
-        val request = getRequest(GRADES_DISCIPLINE.format(journalId), accountToken)
+        val request = getRequest(urls.GRADES_DISCIPLINE.format(journalId), accountToken)
 
         try {
             val response = client.newCall(request).execute()
