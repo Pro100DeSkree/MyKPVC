@@ -1,6 +1,6 @@
 package com.deskree.mykpvc.activities.main.routes.home
 
-import androidx.activity.ComponentActivity
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
@@ -37,7 +37,7 @@ fun CallSchedule() {
     val imagesDark = listOf(R.drawable.mon_tue_wed_fri_dark, R.drawable.thur_dark)
     val imagesLight = listOf(R.drawable.mon_tue_wed_fri_light, R.drawable.thur_light)
 
-    val pref = context.getSharedPreferences(MAIN_PREFERENCE_KEY, ComponentActivity.MODE_PRIVATE)
+    val pref = context.getSharedPreferences(MAIN_PREFERENCE_KEY, Context.MODE_PRIVATE)
     val isDarkTheme = pref.getBoolean(IS_DARK_THEME, isSystemInDarkTheme())
 
     Spacer(Modifier.padding(top = 5.dp))

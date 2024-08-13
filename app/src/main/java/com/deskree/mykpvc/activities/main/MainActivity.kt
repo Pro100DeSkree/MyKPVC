@@ -56,7 +56,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
         setContent {
             val isSystemDarkTheme = isSystemInDarkTheme()
             val darkTheme =
